@@ -51,7 +51,20 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // render the error page
-  res.render('page-not-found');
+  res.locals.error = err;
+  res.status(err.status); 
+  res.render('page-not-found', {err});
+});
+
+// 500- general server errors
+app.use((err, req, res, next) => {
+  const error = {
+      message: 'Internal Server Error',
+      status: 500
+  };
+  res.status(err.status || 500);
+  console.log(error.message)
+  res.render('error', { error });
 });
 
 module.exports = app;
