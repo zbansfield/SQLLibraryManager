@@ -16,7 +16,16 @@ router.get('/', async(req, res, next) => {
 router.get('/books', async(req, res, next) => {
   const allBooks = await Book.findAll()
   res.render('layout', {allBooks})
+});
 
+/* GET create new book form */
+router.get('/books/new', async(req, res, next) => {
+  res.render('new-book')
+});
+
+/* POST new book to database */
+router.post('/books/new', async(req, res, next) => {
+  res.redirect('books')
 });
 
 module.exports = router;
