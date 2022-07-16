@@ -1,7 +1,7 @@
 doctype html
 head
   title Books
-  link(href='../public/stylesheets/style.css' rel='stylesheet')
+  link(rel='stylesheet', href='stylesheets/style.css' )
 h1 Books
 p
   a.button(href='new_book.html') Create New Book
@@ -13,9 +13,10 @@ table
       th Genre
       th Year
   tbody
-    tr
-      td
-        a(href='book_detail.html')= allBooks.title
-      td= allBooks.author
-      td= allBooks.genre
-      td= allBooks.year
+    each book in allBooks
+        tr
+            td
+                a(href='book_detail.html')= book.title
+            td= book.author
+            td= book.genre
+            td= book.year
