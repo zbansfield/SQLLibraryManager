@@ -28,4 +28,9 @@ router.post('/books/new', async(req, res, next) => {
   res.redirect('books')
 });
 
+/* GET create new book form */
+router.get('/books/:id', async(req, res, next) => {
+  res.render('update-book')
+});
+
 module.exports = router;
