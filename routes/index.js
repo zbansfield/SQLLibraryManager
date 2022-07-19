@@ -41,7 +41,7 @@ router.post('/books/:id', async(req, res, next) => {
   let updates = req.body;
   updates.id = req.params.id
   console.log(req.body)
-  await Book.update(req.body);
+  await book.update(updates);
   // res.redirect("/books/" + book.id); 
   // if(book) {
   //   await Book.update(req.body);
