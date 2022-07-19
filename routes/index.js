@@ -13,26 +13,26 @@ router.get('/', async(req, res, next) => {
 // Set up routes
 
 /* GET books page */
-router.get('/books', async(req, res, next) => {
+router.get('/books', async(req, res) => {
   const allBooks = await Book.findAll()
-  res.render('layout', {allBooks})
+  res.render('layout', { allBooks, title: "Books" })
 });
 
 /* GET create new book form */
-router.get('/books/new', async(req, res, next) => {
-  res.render('new-book', { book: {} })
+router.get('/books/new', async(req, res) => {
+  res.render('new-book', { book: {}, title: "New Book" })
 });
 
 /* POST new book to database */
-router.post('/books/new', async(req, res, next) => {
+router.post('/books/new', async(req, res) => {
   let book;
   try {
     book = await Book.create(req.body);
-    res.redirect('/books')
+    res.redirect(`/books/${book.id}`)
   } catch(error) {
     if(error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
-      res.render("new-book", { book, errors: error.errors })
+      res.render("new-book", { book, errors: error.errors, title: 'New Book' })
     } else {
       throw error;
     }
@@ -41,13 +41,22 @@ router.post('/books/new', async(req, res, next) => {
 });
 
 /* GET update book form */
-router.get('/books/:id', async(req, res, next) => {
+router.get('/books/:id', async(req, res) => {
   const book = await Book.findByPk(req.params.id)
-  res.render('update-book', { book })
+  console.log(book)
+  if (book !== null) {
+    res.render('update-book', { book, title: `${book.title}` })
+  } else {
+    const error = {
+      message: 'Page not found',
+      status: 404
+    };
+    res.render('page-not-found', {error, title: "Page Not Found"});
+  }
 });
 
 /* POST updates book in database */
-router.post('/books/:id', async(req, res, next) => {
+router.post('/books/:id', async(req, res) => {
   let book;
   try {
     book = await Book.findByPk(req.params.id);
@@ -57,7 +66,7 @@ router.post('/books/:id', async(req, res, next) => {
     if(error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
       book.id = req.params.id; 
-      res.render("update-book", { book, errors: error.errors })
+      res.render("update-book", { book, errors: error.errors, title: `${book.title}` })
     } else {
       throw error;
     }
@@ -66,7 +75,7 @@ router.post('/books/:id', async(req, res, next) => {
 });
 
 /* POST deletes book from database */
-router.post('/books/:id/delete', async(req, res, next) => {
+router.post('/books/:id/delete', async(req, res) => {
   let book = await Book.findByPk(req.params.id);
   await book.destroy();
   res.redirect('/books')

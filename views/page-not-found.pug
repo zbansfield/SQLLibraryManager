@@ -1,8 +1,6 @@
-doctype html
-html
-  head
-    title Page Not Found
-    link(rel='stylesheet', href='/stylesheets/style.css')
+extends index 
+
+block content
   body
     h1= `${error.message} - Status: ${error.status}`
     p Sorry! We couldn't find the page you were looking for.

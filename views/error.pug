@@ -1,6 +1,7 @@
-doctype html
-head
-  title Server Error
-  link(rel='stylesheet' href='/stylesheets/style.css')
-h1= `${error.message} - Status: ${error.status}`
-p Sorry! There was an unexpected error on the server.
+extends index 
+
+block content
+  h1= `${error.message} - Status: ${error.status}`
+  p Sorry! There was an unexpected error on the server.
+  p
+    a.button(href='/') Home

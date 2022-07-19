@@ -53,7 +53,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.locals.error = err;
   res.status(err.status); 
-  res.render('page-not-found', {err});
+  res.render('page-not-found', {err, title: "Page Not Found"});
 });
 
 // 500- general server errors
@@ -64,7 +64,7 @@ app.use((err, req, res, next) => {
   };
   res.status(err.status || 500);
   console.log(error.message)
-  res.render('error', { error });
+  res.render('error', { error, title: "Server Error" });
 });
 
 module.exports = app;
