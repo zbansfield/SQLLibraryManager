@@ -20,12 +20,14 @@ router.get('/books', async(req, res, next) => {
 
 /* GET create new book form */
 router.get('/books/new', async(req, res, next) => {
-  res.render('new-book')
+  res.render('new-book', { book: {} })
 });
 
 /* POST new book to database */
 router.post('/books/new', async(req, res, next) => {
-  res.redirect('books')
+  let book = await Book.create(req.body);
+  console.log(req.body);
+  res.redirect('/books/')
 });
 
 /* GET update book form */
@@ -38,10 +40,7 @@ router.get('/books/:id', async(req, res, next) => {
 router.post('/books/:id', async(req, res, next) => {
   let book;
   book = await Book.findByPk(req.params.id);
-  let updates = req.body;
-  updates.id = req.params.id
-  console.log(req.body)
-  await book.update(updates);
+  await book.update(req.body);
   // res.redirect("/books/" + book.id); 
   // if(book) {
   //   await Book.update(req.body);
@@ -50,7 +49,7 @@ router.post('/books/:id', async(req, res, next) => {
   // } else {
   //   res.sendStatus(404);
   // }
-  res.redirect('books')
+  res.redirect('/books/')
 });
 
 /* POST deletes book from database */
