@@ -3,6 +3,9 @@ head
   title New Book
   link(rel='stylesheet' href='/stylesheets/style.css')
 h1 New Book
+
+include validationErrors
+
 form(action="/books/new", method="post")
   p
     label(for='title') Title
