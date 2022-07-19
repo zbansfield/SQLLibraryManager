@@ -5,9 +5,12 @@ const Book = require('../models').Book;
 /* GET home page. */
 router.get('/', async(req, res, next) => {
   res.redirect('books')
-  // const allBooks = await Book.findAll()
-  // console.log(allBooks);
-  // res.json(allBooks)
+  /*
+  // Testing Book model and communication with database
+  const allBooks = await Book.findAll()
+  console.log(allBooks);
+  res.json(allBooks)
+  */
 });
 
 // Set up routes
@@ -55,7 +58,7 @@ router.get('/books/:id', async(req, res) => {
   }
 });
 
-/* POST updates book in database */
+/* Updates book in database */
 router.post('/books/:id', async(req, res) => {
   let book;
   try {
@@ -74,7 +77,7 @@ router.post('/books/:id', async(req, res) => {
 
 });
 
-/* POST deletes book from database */
+/* Deletes book from database */
 router.post('/books/:id/delete', async(req, res) => {
   let book = await Book.findByPk(req.params.id);
   await book.destroy();
